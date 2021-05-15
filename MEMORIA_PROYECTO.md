@@ -46,19 +46,19 @@ Para la realización de este trabajo se busco en primera instancia realizar la p
 referente a `Persons` y `Entities` , para ello reutilizamos la especificación de `Products` que era muy similar,y con unos ajustes,esta parte ya quedaría terminada.
 Una vez revisado todo,y cerrada esa parte procedemos a completar los datos que manejarán los controladores y que enviarán a las rutas previamente definidas por el profesor.
 Para no hacer la explicación muy extensa, en los puntos claves que debemos fijarnos es con que método HTTP estamos tratando
-por ejemplo si es un `GET` para mostrar todos los products/entities/persons no necesitamos ningún tipo de parámetro.Sin embargo,si queremos consultar un sólo elemento de estas
+por ejemplo si es un `GET` para mostrar todos los `products/entities/persons` no necesitamos ningún tipo de parámetro.Sin embargo,si queremos consultar un sólo elemento de estas
 estructuras se debe pasar un parámetro que haga referencia a el ID, lo mismo para comprobar si existe alguno de estos o simplemente para modificarle. 
 
 Posteriormente, cuando ya se ha finalizado el completado de los controladores se deberá comprobar que todos y cada uno de los tests que se nos han proporcionado pasan correctamente.
-Finalmente, ahora podremos ver como funciona nuestra API, la ejecutamos y podremos jugar con cada uno de los métodos HTTP, es decir, si queremos realizar un CRUD sobre product/entity/person 
-o por el contrario ver todos products/entities/persons mediante un GET o establecer relaciones entre ellos.Por otro lado, hay métodos HTTP que requerirán Id's u otros parámetros como personname/productname/entityname 
-como es el caso de que queramos consultar la existencia de un product/entity/person o borrarles.
+Finalmente, ahora podremos ver como funciona nuestra API, la ejecutamos y podremos jugar con cada uno de los *métodos HTTP*, es decir, si queremos realizar un CRUD sobre `product/entity/person` 
+o por el contrario ver todos `products/entities/persons` mediante un GET o establecer relaciones entre ellos.Por otro lado, hay métodos HTTP que requerirán Id's u otros parámetros como `personname/productname/entityname` 
+como es el caso de que queramos consultar la existencia de un `product/entity/person` o borrarles.
 en concreto.
 
 > ❗ Para realizar estos procedimientos se debe estar autenticado.
 
 
-❗❗❗❗ No se si previamente había datos cargados en la API,pero lo cierto es que si había no sé por qué razón no se me cargaron.No obstante a ello, la API funciona correctamente.
+>❗❗❗❗ No se si previamente había datos cargados en la API,pero lo cierto es que si había no sé por qué razón no se me cargaron.No obstante a ello, la API funciona correctamente.
 
 
 [dataMapper]: http://martinfowler.com/eaaCatalog/dataMapper.html
