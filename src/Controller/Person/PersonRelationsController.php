@@ -15,7 +15,7 @@ use TDW\ACiencia\Controller\ElementRelationsBaseController;
 use TDW\ACiencia\Entity\Entity;
 use TDW\ACiencia\Entity\Person;
 use TDW\ACiencia\Entity\Product;
-use TDW\ACiencia\Utility\Error;
+
 
 /**
  * Class PersonRelationsController

@@ -15,7 +15,6 @@ use TDW\ACiencia\Controller\ElementRelationsBaseController;
 use TDW\ACiencia\Entity\Entity;
 use TDW\ACiencia\Entity\Person;
 use TDW\ACiencia\Entity\Product;
-use TDW\ACiencia\Utility\Error;
 
 /**
  * Class EntityRelationsController
@@ -32,10 +31,14 @@ final class EntityRelationsController extends ElementRelationsBaseController
      */
     public function getPersons(Request $request, Response $response, array $args): Response
     {
-        // @TODO
-        return Error::error($response, 501);
+        $elementData = [
+            'entityName' => Entity::class,
+            'elementId'  => $args['entityId'],
+            'getter'     => 'getPersons',
+            'stuff'      => 'persons',
+        ];
+        return $this->getElements($response,$elementData);
     }
-
 
     /**
      * PUT /entities/{entityId}/persons/add/{stuffId}
@@ -49,8 +52,15 @@ final class EntityRelationsController extends ElementRelationsBaseController
      */
     public function operationPerson(Request $request, Response $response, array $args): Response
     {
-        // @TODO
-        return Error::error($response, 501);
+        $elementData = [
+            'entityName' => Entity::class,
+            'elementId'  => $args['entityId'],
+            'stuffEName' => Person::class,
+            'stuffId' => $args['stuffId'],
+            'getter'     => 'getPersons',
+            'stuff'      => 'persons',
+        ];
+        return $this->operationStuff($request,$response,$elementData);
     }
 
     /**
@@ -63,8 +73,13 @@ final class EntityRelationsController extends ElementRelationsBaseController
      */
     public function getProducts(Request $request, Response $response, array $args): Response
     {
-        // @TODO
-        return Error::error($response, 501);
+        $elementData = [
+            'entityName' => Entity::class,
+            'elementId'  => $args['entityId'],
+            'getter'     => 'getProducts',
+            'stuff'      => 'products',
+        ];
+        return $this->getElements($response,$elementData);
     }
 
     /**
@@ -78,7 +93,14 @@ final class EntityRelationsController extends ElementRelationsBaseController
      */
     public function operationProduct(Request $request, Response $response, array $args): Response
     {
-        // @TODO
-        return Error::error($response, 501);
+        $elementData = [
+            'entityName' => Entity::class,
+            'elementId'  => $args['entityId'],
+            'stuffEName' => Product::class,
+            'stuffId'    => $args['stuffId'],
+            'getter'     => 'getProducts',
+            'stuff'      => 'products',
+        ];
+        return $this->operationStuff($request,$response,$elementData);
     }
 }
