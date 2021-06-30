@@ -26,6 +26,7 @@ class LoginController
     protected EntityManager $entityManager;
     protected JwtAuth $jwtAuth;
 
+
     // constructor receives container instance
     public function __construct(EntityManager $entityManager, JwtAuth $jwtAuth)
     {
@@ -42,7 +43,7 @@ class LoginController
      */
     public function post(Request $request, Response $response): Response
     {
-        $req_data
+         $req_data
             = $request->getParsedBody()
             ?? json_decode($request->getBody(), true, 3, JSON_INVALID_UTF8_IGNORE);
 
@@ -70,6 +71,10 @@ class LoginController
             $claimedScopes = empty($claimedScopes[0]) ? Role::ROLES : $claimedScopes;
             $token = $this->jwtAuth->createJwt($user, $claimedScopes);
         }
+
+        //if inactivo
+        if($user->getInactivo() == true)
+            return Error::error($response,StatusCode::STATUS_UNAUTHORIZED);
 
         return $response
             ->withJson([

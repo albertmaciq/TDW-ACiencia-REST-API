@@ -6,6 +6,8 @@ use Slim\App;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $containerBuilder = new ContainerBuilder();
+if(!defined('STDOUT'))
+    define('STDOUT',fopen('php://stdout','w'));
 
 // Set up settings
 $containerBuilder->addDefinitions(__DIR__ . '/container.php');
@@ -17,7 +19,7 @@ try {
     // Create App instance
     $app = $container->get(App::class);
 } catch (Throwable $e) {
-    fwrite(STDERR, 'EXCEPCIÓN: ' . $e->getCode() . ' - ' . $e->getMessage() . PHP_EOL);
+    fwrite(STDOUT, 'EXCEPCIÓN: ' . $e->getCode() . ' - ' . $e->getMessage() . PHP_EOL);
     exit(1);
 }
 

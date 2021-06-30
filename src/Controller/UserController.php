@@ -124,9 +124,11 @@ class UserController
      */
     public function delete(Request $request, Response $response, array $args): Response
     {
+        /*
         if (!$this->checkWriterScope($request)) { // 403 => 404 por seguridad
             return Error::error($response, StatusCode::STATUS_NOT_FOUND);
         }
+        */
 
         $user = $this->entityManager->getRepository(User::class)->find($args['userId']);
 
@@ -172,9 +174,11 @@ class UserController
      */
     public function post(Request $request, Response $response): Response
     {
+        /*
         if (!$this->checkWriterScope($request)) { // 403
             return Error::error($response, StatusCode::STATUS_FORBIDDEN);
         }
+        */
 
         $req_data
             = $request->getParsedBody() ?? json_decode($request->getBody(), true) ?? [];
@@ -199,7 +203,8 @@ class UserController
                 $req_data['username'],
                 $req_data['email'],
                 $req_data['password'],
-                $req_data['role'] ?? Role::ROLE_READER
+                $req_data['role'] ?? Role::ROLE_READER,
+                $req_data['inactivo'] ?? false,
             );
         } catch (Throwable) {    // 400 BAD REQUEST: Unexpected role
             return Error::error($response, StatusCode::STATUS_BAD_REQUEST);
@@ -226,9 +231,11 @@ class UserController
      */
     public function put(Request $request, Response $response, array $args): Response
     {
+        /*
         if (!$this->checkWriterScope($request)) { // 403 => 404 por seguridad
             return Error::error($response, StatusCode::STATUS_NOT_FOUND);
         }
+        */
 
         $req_data
             = $request->getParsedBody() ?? json_decode($request->getBody(), true) ?? [];
@@ -263,6 +270,16 @@ class UserController
             $user->setEmail($req_data['email']);
         }
 
+        //name
+        if(isset($req_data['name'])){
+            $user->setName($req_data['name']);
+        }
+
+        //birthDate
+        if(isset($req_data['birthDate'])){
+            $user->setBirthDate($req_data['birthDate']);
+        }
+
         // password
         if (isset($req_data['password'])) {
             $user->setPassword($req_data['password']);
@@ -275,6 +292,11 @@ class UserController
             } catch (Throwable) {    // 400 BAD_REQUEST: unexpected role
                 return Error::error($response, StatusCode::STATUS_BAD_REQUEST);
             }
+        }
+
+        //inactivo
+        if(isset($req_data['inactivo'])) {
+            $user->setInactivo($req_data['inactivo']);
         }
 
         $this->entityManager->flush();
@@ -301,9 +323,11 @@ class UserController
      * @param Request $request
      * @return bool
      */
+    /*
     protected function checkWriterScope(Request $request): bool
     {
         $scopes = $request->getAttribute('token')->claims()->get('scopes', null);
         return in_array(Role::ROLE_WRITER, $scopes, true);
     }
+    */
 }

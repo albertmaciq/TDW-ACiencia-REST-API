@@ -112,6 +112,7 @@ paths:
       security:
         - MiWApiSecurity:
             - writer
+            - reader
       requestBody:
         $ref: '#/components/requestBodies/UserRequestBody'
       responses:
@@ -1340,6 +1341,7 @@ components:
           username: user1508
           email: miw.etsisi@upm.es
           role: reader
+          inactivo: false
 #          _links:
 #            parent:
 #              href: /api/v1/users
@@ -1351,6 +1353,8 @@ components:
           user:
             id: 1508
             username: user1508
+            name:
+            birthDate:
             email: miw.etsisi@upm.es
             role: reader
 #            _links:
@@ -1550,6 +1554,12 @@ components:
                 description: User email
                 type: string
                 format: email
+              name:
+                description: User name
+                type: string
+              birthDay:
+                description: User birthday
+                type: string
               password:
                 description: User password
                 type: string

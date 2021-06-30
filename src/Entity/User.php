@@ -80,6 +80,36 @@ class User implements JsonSerializable
     protected Role $role;
 
     /**
+     * @ORM\Column(
+     *     name     = "inactivo",
+     *     type     = "boolean",
+     *     nullable = false
+     *     )
+     */
+    protected bool $inactivo;
+
+    /**
+     * @ORM\Column(
+     *     name="name",
+     *     type="string",
+     *     length=80,
+     *     nullable=true
+     *     )
+     */
+    protected string |null $name = null;
+
+
+    /**
+     * @ORM\Column(
+     *     name="birthdate",
+     *     type="string",
+     *     nullable=true
+     *     )
+     */
+    protected string |null $birthDate = null;
+
+
+    /**
      * User constructor.
      *
      * @param string $username username
@@ -93,7 +123,10 @@ class User implements JsonSerializable
         string $username = '',
         string $email = '',
         string $password = '',
-        string $role = Role::ROLE_READER
+        string $role = Role::ROLE_READER,
+        ?bool $inactivo = false,
+        ?string $name = '',
+        ?string $birthDate = '',
     ) {
         $this->id       = 0;
         $this->username = $username;
@@ -104,6 +137,9 @@ class User implements JsonSerializable
         } catch (UnexpectedValueException) {
             throw new UnexpectedValueException('Unexpected Role');
         }
+        $this->inactivo = $inactivo;
+        $this->name = $name;
+        $this->birthDate = $birthDate;
     }
 
     /**
@@ -222,6 +258,56 @@ class User implements JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function getInactivo(): bool
+    {
+        return $this->inactivo;
+    }
+
+    /**
+     * @param bool $inactivo
+     * @return User
+     */
+    public function setInactivo(bool $inactivo): self
+    {
+        $this->inactivo = $inactivo;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBirthDate(): ?string
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param string|null $birthDate
+     */
+    public function setBirthDate(?string $birthDate): void
+    {
+        $this->birthDate = $birthDate;
+    }
+
+    /**
      * The __toString method allows a class to decide how it will react when it is converted to a string.
      *
      * @return string
@@ -231,12 +317,15 @@ class User implements JsonSerializable
     {
         return
             sprintf(
-                '[%s: (id=%04d, username="%s", email="%s", role="%s")]',
+                '[%s: (id=%04d, username="%s",name="%s",birthDate="%s", email="%s", role="%s", inactivo="%d")]',
                 basename(self::class),
                 $this->getId(),
                 $this->getUsername(),
+                $this->getName(),
+                $this->getBirthDate(),
                 $this->getEmail(),
-                $this->role
+                $this->role,
+                $this->getInactivo()
             );
     }
 
@@ -253,8 +342,11 @@ class User implements JsonSerializable
             'user' => [
                 'id' => $this->getId(),
                 'username' => $this->getUsername(),
+                'name' => $this->getName(),
+                'birthDate' => $this->getBirthDate(),
                 'email' => $this->getEmail(),
                 'role' => $this->role->__toString(),
+                'inactivo' => $this->getInactivo()
             ]
         ];
     }
