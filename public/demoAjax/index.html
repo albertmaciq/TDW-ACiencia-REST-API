@@ -257,7 +257,6 @@
                     }
                     document.getElementById("users").innerHTML = sectionUsers.join(" ");
                 }
-
                 createMyProfileModal(currentUserName,getUsers,authHeader);
             }
         })
@@ -383,7 +382,7 @@
                 for(let i=0;i<x.products.length;i++)
                     getProducts.push(x.products[i]);
                 if(type === 'reader') //si reader
-                    showContentReaderProducts(getProducts);
+                    showContentReaderProducts(getProducts,authHeader);
                 else //si writer
                     showContentWriterProducts(getProducts,authHeader);
             }
@@ -410,10 +409,48 @@
             else
                 sectionProducts.push("<p>Fecha de fallecimiento:  "+ products[i].product.deathDate +"</p>");
             sectionProducts.push("<p>Wiki: </p><a  class ='linkWiki' href='"+  products[i].product.wikiUrl + "'>"+  products[i].product.wikiUrl +"</a>");
+            if(products[i].product.entities != null) {
+                let cont = products[i].product.entities.length -1;
+                sectionProducts.push("<h4>Relaciones con Entidades:</h4>");
+                sectionProducts.push("<p id='entity-product-related"+ i +"'></p>");
+                showEntitiesRelatedWithProduct(products[i].product.entities[cont], authHeader,i);
+            }
+            if(products[i].product.persons != null) {
+                let cont = products[i].product.persons.length-1;
+                sectionProducts.push("<h4>Relaciones con Personas:</h4>");
+                sectionProducts.push("<p id='person-product-related"+ i + "'></p>");
+                showPersonsRelatedWithProduct(products[i].product.persons[cont], authHeader,i);
+            }
             sectionProducts.push("</div>");
         }
         sectionProducts.push("</div>");
         document.getElementById("products").innerHTML = sectionProducts.join("");
+    }
+
+    function showEntitiesRelatedWithProduct(entity,authHeader,pos){
+            $.ajax({
+                type: "GET",
+                url: '/api/v1/entities/' + entity,
+                headers: {"Authorization": authHeader},
+                success: function (data) {
+                    let html = [];
+                    html.push("<p><b>Entidad no. "+ data.entity.id + " : </b> "+ data.entity.name +"</p>");
+                    document.getElementById("entity-product-related"+ pos).innerHTML = html.join("");
+                }
+            })
+    }
+
+    function showPersonsRelatedWithProduct(person,authHeader,pos){
+            $.ajax({
+                type: "GET",
+                url: '/api/v1/persons/' + person,
+                headers: {"Authorization": authHeader},
+                success: function (data) {
+                    let html = [];
+                    html.push("<p><b>Persona no. " +  data.person.id + " : </b> "+ data.person.name +"</p>");
+                    document.getElementById("person-product-related"+ pos).innerHTML = html.join("");
+                }
+            })
     }
 
     function showContentWriterProducts(products,authHeader){
@@ -622,10 +659,49 @@
             else
                 sectionPersons.push("<p>Fecha de fallecimiento:  "+ persons[i].person.deathDate +"</p>");
             sectionPersons.push("<p>Wiki: </p><a class ='linkWiki' href='"+  persons[i].person.wikiUrl + "'>"+  persons[i].person.wikiUrl +"</a>");
+            console.log(persons[i].person)
+            if(persons[i].person.entities != null) {
+                let cont = persons[i].person.entities.length -1;
+                sectionPersons.push("<h4>Relaciones con Entidades:</h4>");
+                sectionPersons.push("<p id='entity-person-related"+ i +"'></p>");
+                showEntitiesRelatedWithPerson(persons[i].person.entities[cont], authHeader,i);
+            }
+            if(persons[i].person.products != null) {
+                let cont = persons[i].person.products.length-1;
+                sectionPersons.push("<h4>Relaciones con Productos:</h4>");
+                sectionPersons.push("<p id='product-person-related"+ i + "'></p>");
+                showProductsRelatedWithPerson(persons[i].person.products[cont], authHeader,i);
+            }
             sectionPersons.push("</div>");
         }
         sectionPersons.push("</div>");
         document.getElementById("persons").innerHTML = sectionPersons.join("");
+    }
+
+    function showEntitiesRelatedWithPerson(entity,authHeader,pos){
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/entities/' + entity,
+            headers: {"Authorization": authHeader},
+            success: function (data) {
+                let html = [];
+                html.push("<p><b>Entidad no. "+ data.entity.id + " : </b> "+ data.entity.name +"</p>");
+                document.getElementById("entity-person-related"+ pos).innerHTML = html.join("");
+            }
+        })
+    }
+
+    function showProductsRelatedWithPerson(product,authHeader,pos){
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/products/' + product,
+            headers: {"Authorization": authHeader},
+            success: function (data) {
+                let html = [];
+                html.push("<p><b>Producto no. " +  data.product.id + " : </b> "+ data.product.name +"</p>");
+                document.getElementById("product-person-related"+ pos).innerHTML = html.join("");
+            }
+        })
     }
 
     function showContentWriterPersons(persons,authHeader){
@@ -789,10 +865,48 @@
             else
                 sectionEntities.push("<p>Fecha de fallecimiento:  "+ entities[i].entity.deathDate +"</p>");
             sectionEntities.push("<p>Wiki: </p><a class ='linkWiki' href='"+  entities[i].entity.wikiUrl + "'>"+  entities[i].entity.wikiUrl +"</a>");
+            if(entities[i].entity.products != null) {
+                let cont = entities[i].entity.products.length -1;
+                sectionEntities.push("<h4>Relaciones con Productos:</h4>");
+                sectionEntities.push("<p id='product-entity-related"+ i +"'></p>");
+                showProductsRelatedWithEntity(entities[i].entity.products[cont], authHeader,i);
+            }
+            if(entities[i].entity.persons != null) {
+                let cont = entities[i].entity.persons.length-1;
+                sectionEntities.push("<h4>Relaciones con Personas:</h4>");
+                sectionEntities.push("<p id='person-entity-related"+ i + "'></p>");
+                showPersonsRelatedWithEntity(entities[i].entity.persons[cont], authHeader,i);
+            }
             sectionEntities.push("</div>");
         }
         sectionEntities.push("</div>");
         document.getElementById("entities").innerHTML = sectionEntities.join("");
+    }
+
+    function showProductsRelatedWithEntity(product,authHeader,pos){
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/products/' + product,
+            headers: {"Authorization": authHeader},
+            success: function (data) {
+                let html = [];
+                html.push("<p><b>Producto no. "+ data.product.id + " : </b> "+ data.product.name +"</p>");
+                document.getElementById("product-entity-related"+ pos).innerHTML = html.join("");
+            }
+        })
+    }
+
+    function showPersonsRelatedWithEntity(person,authHeader,pos){
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/persons/' + person,
+            headers: {"Authorization": authHeader},
+            success: function (data) {
+                let html = [];
+                html.push("<p><b>Persona no. " +  data.person.id + " : </b> "+ data.person.name +"</p>");
+                document.getElementById("person-entity-related"+ pos).innerHTML = html.join("");
+            }
+        })
     }
 
     function showContentWriterEntities(entities,authHeader){
