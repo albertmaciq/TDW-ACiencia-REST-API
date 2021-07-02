@@ -204,8 +204,24 @@ class ElementBaseController
             return Error::error($response, StatusCode::STATUS_BAD_REQUEST);
         }
 
+        if($entityName == 'products'){
+            // datos alias
+            $criteriaAlias = new Criteria();
+            $criteriaAlias
+                -> where($criteriaAlias::expr()->eq('alias',$req_data['alias']));
+            //STATUS_BAD_REQUEST 400: element alias already exists
+            if($this->entityManager->getRepository($entityName)->matching($criteriaAlias)->count()) {
+                return Error::error($response,StatusCode::STATUS_BAD_REQUEST);
+            }
+            //añadir alias
+            $element = new $entityName;
+            $element->Product::setAlias($req_data['alias']);
+        }
+
+
         // 201
         $element = new $entityName($req_data['name']);
+
         $this->updateElement($element, $req_data);
         $this->entityManager->persist($element);
         $this->entityManager->flush();

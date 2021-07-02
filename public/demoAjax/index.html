@@ -403,6 +403,7 @@
             sectionProducts.push("</div>");
             sectionProducts.push("<div id='info-product"+i+"' class='collapse'>");
             sectionProducts.push("<p>Nombre:  "+ products[i].product.name +"</p>");
+            sectionProducts.push("<p>Alias:  "+ products[i].product.alias +"</p>");
             sectionProducts.push("<p>Fecha de nacimiento:  "+ products[i].product.birthDate +"</p>");
             if(products[i].product.deathDate == null)
                 sectionProducts.push("<p>Fecha de fallecimiento:   </p>");
@@ -492,6 +493,7 @@
                 dataType: 'json',
                 data: {
                     name: $("#create-product-name").val(),
+                    alias: $("#create-product-alias").val(),
                     birthDate: $("#create-product-birthDate").val(),
                     deathDate: $("#create-product-deathDate").val(),
                     imageUrl: $("#create-product-imageUrl").val(),
@@ -594,6 +596,10 @@
         sectionProducts.push("<input id='create-product-name' type='text' class='form-control' placeholder='Nombre del producto' required>");
         sectionProducts.push("</div>");
         sectionProducts.push("<div class='mb-3'>");
+        sectionProducts.push("<label for='create-product-alias' class='col-form-label'>Alias:</label>");
+        sectionProducts.push("<input id='create-product-alias' type='text' class='form-control' placeholder='Nombre comercial' required>");
+        sectionProducts.push("</div>");
+        sectionProducts.push("<div class='mb-3'>");
         sectionProducts.push("<label for='create-product-birthDate' class='col-form-label'>Fecha de nacimiento:</label>");
         sectionProducts.push("<input id='create-product-birthDate' type='text' class='form-control' placeholder='1937-10-10 (formato)'>");
         sectionProducts.push("</div>");
@@ -659,7 +665,6 @@
             else
                 sectionPersons.push("<p>Fecha de fallecimiento:  "+ persons[i].person.deathDate +"</p>");
             sectionPersons.push("<p>Wiki: </p><a class ='linkWiki' href='"+  persons[i].person.wikiUrl + "'>"+  persons[i].person.wikiUrl +"</a>");
-            console.log(persons[i].person)
             if(persons[i].person.entities != null) {
                 let cont = persons[i].person.entities.length -1;
                 sectionPersons.push("<h4>Relaciones con Entidades:</h4>");

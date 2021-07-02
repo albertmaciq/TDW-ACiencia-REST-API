@@ -75,8 +75,21 @@ class Product extends Element
     protected Collection $entities;
 
     /**
+     * @ORM\Column(
+     *     name="alias",
+     *     type="string",
+     *     length=80,
+     *     unique=true,
+     *     nullable=false
+     *     )
+     */
+     protected string $alias;
+
+
+    /**
      * Entity constructor.
      * @param string $name
+     * @param string $alias
      * @param DateTime|null $birthDate
      * @param DateTime|null $deathDate
      * @param string|null $imageUrl
@@ -84,14 +97,32 @@ class Product extends Element
      */
     public function __construct(
         string $name,
+        string $alias,
         ?DateTime $birthDate = null,
         ?DateTime $deathDate = null,
         ?string $imageUrl = null,
         ?string $wikiUrl = null
     ) {
         parent::__construct($name, $birthDate, $deathDate, $imageUrl, $wikiUrl);
+        $this->alias = $alias;
         $this->persons = new ArrayCollection();
         $this->entities = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias(): string
+    {
+        return $this->alias;
+    }
+
+    /**
+     * @param string $alias
+     */
+    public function setAlias(string $alias): void
+    {
+        $this->alias = $alias;
     }
 
     // Entities
@@ -214,6 +245,7 @@ class Product extends Element
     public function jsonSerialize(): array
     {
         $data = parent::jsonSerialize();
+        $data['alias'] = $this->getAlias();
         $data['persons'] = $this->getPersons() ? $this->getCodes($this->getPersons()) : null;
         $data['entities'] = $this->getEntities() ? $this->getCodes($this->getEntities()) : null;
 

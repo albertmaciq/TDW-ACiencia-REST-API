@@ -59,6 +59,8 @@ function createEditProductForm(data){
     editProductForm.push("<h4>" + data.product.name + "</h4>");
     editProductForm .push("<label for='edit-product-name' class='col-form-label'>Nombre producto:</label>");
     editProductForm .push("<input id='edit-product-name' type='text' class='form-control' value='" + data.product.name + "'>");
+    editProductForm .push("<label for='edit-product-alias' class='col-form-label'>Alias:</label>");
+    editProductForm .push("<input id='edit-product-alias' type='text' class='form-control' value='" + data.product.alias + "'>");
     editProductForm .push("<label for='edit-product-birthDate' class='col-form-label'>Fecha de nacimiento:</label>");
     editProductForm .push("<input id='edit-product-birthDate' type='text' class='form-control' value='" + data.product.birthDate + "'>");
     editProductForm .push("<label for='edit-product-deathDate' class='col-form-label'>Fecha de fallecimiento:</label>");
