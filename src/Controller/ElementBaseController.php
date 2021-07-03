@@ -204,7 +204,7 @@ class ElementBaseController
             return Error::error($response, StatusCode::STATUS_BAD_REQUEST);
         }
 
-        if($entityName == 'products'){
+        if($entityName == "products"){
             // datos alias
             $criteriaAlias = new Criteria();
             $criteriaAlias
@@ -213,15 +213,10 @@ class ElementBaseController
             if($this->entityManager->getRepository($entityName)->matching($criteriaAlias)->count()) {
                 return Error::error($response,StatusCode::STATUS_BAD_REQUEST);
             }
-            //añadir alias
-            $element = new $entityName;
-            $element->Product::setAlias($req_data['alias']);
         }
 
-
         // 201
-        $element = new $entityName($req_data['name']);
-
+        $element = new $entityName($req_data['name'],$req_data['alias']);
         $this->updateElement($element, $req_data);
         $this->entityManager->persist($element);
         $this->entityManager->flush();

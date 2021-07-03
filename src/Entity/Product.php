@@ -22,6 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
  *          @ORM\UniqueConstraint(
  *              name = "Product_name_uindex",
  *              columns = {"name"}
+ *          ),
+ *          @ORM\UniqueConstraint(
+ *              name = "Product_alias_uindex",
+ *              columns = {"alias"}
  *          )
  *      }
  * )
